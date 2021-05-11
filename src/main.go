@@ -8,7 +8,7 @@ import (
 
 func handler(writer http.ResponseWriter, request *http.Request) {
 	fmt.Fprintf(writer, "Hello Usagisan")
-	resp, err := http.Get("https://www.google.co.jp/")
+	resp, err := http.Get("http://demo2/")
 	if err != nil {
 		panic(err)
 	}
