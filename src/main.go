@@ -7,8 +7,8 @@ import (
 )
 
 func handler(writer http.ResponseWriter, request *http.Request) {
-	fmt.Fprintf(writer, "Hello Usagisan")
-	resp, err := http.Get("http://demo2:8081/")
+	fmt.Fprintf(writer, "Hello Usagisan/")
+	resp, err := http.Get("http://localhost:3500/v1.0/invoke/demo2/method/hello")
 	if err != nil {
 		panic(err)
 	}

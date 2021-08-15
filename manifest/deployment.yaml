@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: demo1
+  name: demo1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: demo1
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        app: demo1
+      annotations:
+        dapr.io/enabled: "true"
+        dapr.io/app-id: demo1
+    spec:
+      containers:
+      - image: katsuhiro1015/demo1
+        name: demo1
+        resources: {}
+status: {}
