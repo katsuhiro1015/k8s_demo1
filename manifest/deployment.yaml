@@ -15,7 +15,7 @@ spec:
       labels:
         app: demo1
       annotations:
-        dapr.io/enabled: "true"
+        dapr.io/enabled: "false"
         dapr.io/app-id: demo1
     spec:
       containers:
