@@ -23,7 +23,24 @@ $ brew link dapr-cli
 $ dapr init -k
 ```
 
+## OpenAPI
 
+oapi-codegenによるRESTインターフェースの作成
+
+### install
+
+```
+$ go get github.com/deepmap/oapi-codegen/cmd/oapi-codegen@v1.9.0
+```
+
+### Go コード生成
+
+- client
+
+```
+$ oapi-codegen -package domain -generate "client" -o src/output/petstore.go openapi.yaml 
+```
+ß
 ## Kong
 
 ### setup

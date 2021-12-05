@@ -1,8 +1,11 @@
 package main
 
 import (
+	"context"
 	"fmt"
 	"io/ioutil"
+	"k8s_demo1/output"
+	"log"
 	"net/http"
 )
 
@@ -27,7 +30,29 @@ func handler(writer http.ResponseWriter, request *http.Request) {
 	fmt.Fprint(writer, string(body))
 }
 
+func oapiHandler(writer http.ResponseWriter, request *http.Request) {
+	c, err := output.NewClient("http://localhost:8888")
+	if err != nil {
+		panic(err)
+	}
+
+	params := output.FindPetsParams{Tags: &[]string{"dog"}}
+	// http.Response として返却
+	res, err := c.FindPets(context.Background(), &params)
+	defer res.Body.Close()
+	if err != nil {
+		panic(err)
+	}
+	b, err := ioutil.ReadAll(res.Body)
+	if err != nil {
+		log.Fatal(err)
+	}
+	fmt.Fprint(writer, string(b))
+
+}
+
 func main() {
 	http.HandleFunc("/", handler)
+	http.HandleFunc("/oapi", oapiHandler)
 	http.ListenAndServe(":8080", nil)
 }
