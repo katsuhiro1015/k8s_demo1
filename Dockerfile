@@ -3,12 +3,13 @@ FROM golang:1.15.2 as builder
 WORKDIR /go/src
 
 COPY ./src/  ./
+COPY ./go.mod  ./
+COPY ./go.sum  ./
 
 ARG CGO_ENABLED=0
 ARG GOOS=linux
 ARG GOARCH=amd64
-RUN go mod init k8s_demo1 && \
-    go build \
+RUN go build \
     -o /go/bin/main \
     -ldflags '-s -w'
 

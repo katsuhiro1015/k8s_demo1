@@ -30,13 +30,13 @@ func handler(writer http.ResponseWriter, request *http.Request) {
 	fmt.Fprint(writer, string(body))
 }
 
-func oapiHandler(writer http.ResponseWriter, request *http.Request) {
-	c, err := output.NewClient("http://localhost:8888")
+func list_handler(writer http.ResponseWriter, request *http.Request) {
+	c, err := output.NewClient("http://localhost:3500/v1.0/invoke/demo2/method/")
 	if err != nil {
 		panic(err)
 	}
 
-	params := output.FindPetsParams{Tags: &[]string{"dog"}}
+	params := output.FindPetsParams{Tags: &[]string{"yosistamp"}}
 	// http.Response として返却
 	res, err := c.FindPets(context.Background(), &params)
 	defer res.Body.Close()
@@ -51,8 +51,33 @@ func oapiHandler(writer http.ResponseWriter, request *http.Request) {
 
 }
 
+func add_handler(writer http.ResponseWriter, request *http.Request) {
+	c, err := output.NewClient("http://localhost:3500/v1.0/invoke/demo2/method/")
+	if err != nil {
+		panic(err)
+	}
+
+	tag := "yosistamp"
+	params := output.AddPetJSONRequestBody{
+		Name: "usagisan",
+		Tag:  &tag,
+	}
+	// http.Response として返却
+	res, err := c.AddPet(context.Background(), params)
+	defer res.Body.Close()
+	if err != nil {
+		panic(err)
+	}
+	b, err := ioutil.ReadAll(res.Body)
+	if err != nil {
+		log.Fatal(err)
+	}
+	fmt.Fprint(writer, string(b))
+
+}
 func main() {
 	http.HandleFunc("/", handler)
-	http.HandleFunc("/oapi", oapiHandler)
+	http.HandleFunc("/oapi/add", add_handler)
+	http.HandleFunc("/oapi", list_handler)
 	http.ListenAndServe(":8080", nil)
 }
